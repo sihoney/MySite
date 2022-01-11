@@ -77,7 +77,8 @@
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="" method="">
+					<form action="/MySite/guest" method="get">
+						<input type="hidden" name="action" value="add">
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -124,7 +125,7 @@
 								<td><a href="/MySite/guest?action=deleteForm&no=<%= no%>">[삭제]</a></td>
 							</tr>
 							<tr>
-								<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
+								<td colspan=4 class="text-left"><%= list.get(i).getContent() %></td>
 							</tr>
 						</table>
 						<!-- //guestRead -->

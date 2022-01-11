@@ -26,6 +26,36 @@ public class GuestbookController extends HttpServlet {
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/guestbook/deleteForm.jsp");
 			
+		} 
+		else if("delete".equals(action)) {
+			String pass = request.getParameter("pass");
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			GuestbookDao gDao = new GuestbookDao();
+			GuestbookVo gvo = gDao.getGuest(no);
+			
+			if( pass.equals(gvo.getPassword()) ) {
+				System.out.println("비밀번호가 일치합니다.");
+				gDao.deleteGuest(no);
+			} 
+			else {
+				System.out.println("비밀번호가 다릅니다.");
+			}
+			
+			response.sendRedirect("/MySite/guest");
+		}
+		else if("add".equals(action)) {
+			
+			String name = request.getParameter("name");
+			String password = request.getParameter("password");
+			String content = request.getParameter("content");
+			
+			GuestbookDao guestbookDao = new GuestbookDao();
+			GuestbookVo gvo = new GuestbookVo(name, password, content);
+			guestbookDao.addGuest(gvo);
+			
+			// redirect
+			WebUtil.redirect(request, response, "/MySite/guest");
 		}
 		else {
 			GuestbookDao gDao = new GuestbookDao();
