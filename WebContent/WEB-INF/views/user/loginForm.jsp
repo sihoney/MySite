@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ page import="com.javaex.vo.UsersVo" %>
+
+<%
+	UsersVo authUser = (UsersVo) session.getAttribute("authUser");
+
+	String result = request.getParameter("result");
+	
+%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,20 +24,27 @@
 
 		<div id="header" class="clearfix">
 			<h1>
-				<a href="">MySite</a>
+				<a href="/MySite/main">MySite</a>
 			</h1>
 
-			<!-- 
+			<%
+			if(authUser != null){ // 성공
+			%>
 			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
+				<li><%= authUser.getName() %> 님 안녕하세요^^</li>
+				<li><a href="/MySite/user?action=logout" class="btn_s">로그아웃</a></li>
+				<li><a href="/MySite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
+			</ul>	
+			<%
+			} else { // 실패
+			%>
 			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
+				<li><a href="/MySite/user?action=loginForm" class="btn_s">로그인</a></li>
+				<li><a href="/MySite/user?action=joinForm" class="btn_s">회원가입</a></li>
 			</ul>
+			<%
+			}
+			%>
 			
 		</div>
 		<!-- //header -->
@@ -86,6 +102,13 @@
 								<input type="text" id="input-pass" name="password" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
 	
+							<%
+							if("fail".equals(result)) {
+							%>
+							<p style="color:red">로그인에 실패했습니다. 다시 로그인해주세요</p>
+							<%
+							}
+							%>
 							
 							<!-- 버튼영역 -->
 							<div class="button-area">

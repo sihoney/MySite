@@ -1,4 +1,4 @@
-package com.javaex.dao;
+ package com.javaex.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -94,7 +94,7 @@ public class UsersDao {
 		try {
 
 			String query = "";
-			query += " select id, password, name, gender ";
+			query += " select no, id, password, name, gender "; // no 추가
 			query += " from users ";
 			query += " where id = ? ";
 			query += " and password = ? ";
@@ -107,12 +107,13 @@ public class UsersDao {
 			rs= pstmt.executeQuery();
 			
 			while(rs.next()) {
+				int no = rs.getInt("no");
 				String ID = rs.getString("id");
 				String PASSWORD = rs.getString("password");
 				String name = rs.getString("name");
 				String gender = rs.getString("gender");
 				
-				uvo = new UsersVo(ID, PASSWORD, name, gender);
+				uvo = new UsersVo(no, ID, PASSWORD, name, gender);
 			}
 			
 		} catch(SQLException e) {
@@ -121,5 +122,37 @@ public class UsersDao {
 		
 		this.close();
 		return uvo;
+	}
+	
+	public int updateUser(UsersVo uvo) {
+		int count = 1;
+		this.getConnection();
+		
+		try {
+			
+			String query = "";
+			query += " update users ";
+			query += " set password = ? ";
+			query += "     ,name = ? ";
+			query += "     ,gender = ? ";
+			query += " where id = ? ";
+			
+			pstmt = conn.prepareStatement(query);
+			
+			pstmt.setString(1, uvo.getPassword());
+			pstmt.setString(2, uvo.getName());
+			pstmt.setString(3, uvo.getGender());
+			pstmt.setString(4, uvo.getId());
+			
+			count = pstmt.executeUpdate();
+			
+			System.out.println(count + "건이 수정되었습니다.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		this.close();
+		return count;
 	}
 }

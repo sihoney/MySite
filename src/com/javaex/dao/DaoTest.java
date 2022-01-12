@@ -1,19 +1,16 @@
 package com.javaex.dao;
 
-import java.util.List;
-
-import com.javaex.vo.GuestbookVo;
+import com.javaex.vo.UsersVo;
 
 public class DaoTest {
 
 	public static void main(String[] args) {
 		
-		GuestbookDao gDao = new GuestbookDao();
-		List<GuestbookVo> list = gDao.getList();
+		UsersDao uDao = new UsersDao();
 		
-		for(GuestbookVo gvo : list) {
-			System.out.println(gvo.toString());
-		}
+		uDao.updateUser(new UsersVo("1", "1234", "sihoney", "male"));
+		
+		
 		
 //		UsersDao usersDao = new UsersDao();
 //	
