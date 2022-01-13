@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.GuestbookVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ page import="com.javaex.vo.GuestbookVo" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.javaex.vo.UsersVo" %>
 
 <%
 	List<GuestbookVo> list = (List<GuestbookVo>) request.getAttribute("gList");
 	UsersVo authUser = (UsersVo) session.getAttribute("authUser");
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -23,42 +24,9 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/MySite/main">MySite</a>
-			</h1>
-
-			<%
-			if(authUser != null){ // 성공
-			%>
-			<ul>
-				<li><%= authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/MySite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>	
-			<%
-			} else { // 실패
-			%>
-			<ul>
-				<li><a href="/MySite/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/MySite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul>
-			<%
-			}
-			%>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
+		<!-- header, nav -->
+		<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 	
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -97,12 +65,12 @@
 							<tbody>
 								<tr>
 									<th><label class="form-text" for="input-uname">이름</label></td>
-									<td><input id="input-uname" type="text" name="name"></td>
+									<td><input id="input-uname" type="text" name="name" required></td>
 									<th><label class="form-text" for="input-pass">패스워드</label></td>
-									<td><input id="input-pass"type="password" name="pass"></td>
+									<td><input id="input-pass"type="password" name="pass" required></td>
 								</tr>
 								<tr>
-									<td colspan="4"><textarea name="content" cols="72" rows="5"></textarea></td>
+									<td colspan="4"><textarea name="content" cols="72" rows="5" required></textarea></td>
 								</tr>
 								<tr class="button-area">
 									<td colspan="4" class="text-center"><button type="submit">등록</button></td>
@@ -115,7 +83,7 @@
 						
 					</form>	
 					
-					<%
+<%-- 					<%
 					for(int i = 0; i < list.size(); i++) {
 						int no = list.get(i).getNo();
 					%>
@@ -139,7 +107,27 @@
 						<!-- //guestRead -->
 					<%
 					}
-					%> 
+					%>  --%>
+					
+					<c:forEach items="${requestScope.gList }" var="userVo" varStatus="status">
+						<table class="guestRead">
+							<colgroup>
+								<col style="width: 10%;">
+								<col style="width: 40%;">
+								<col style="width: 40%;">
+								<col style="width: 10%;">
+							</colgroup>
+							<tr>
+								<td>${userVo.no }</td>
+								<td>${userVo.name }</td>
+								<td>${userVo.regDate }</td>
+								<td><a href="/MySite/guest?action=deleteForm&no=${userVo.no }">[삭제]</a></td>
+							</tr>
+							<tr>
+								<td colspan=4 class="text-left">${userVo.content }</td>
+							</tr>
+						</table>						
+					</c:forEach>
 					
 				</div>
 				<!-- //guestbook -->
@@ -149,9 +137,8 @@
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+	 	<%-- <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include> --%>
+	 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

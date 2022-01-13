@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%-- <%@ page import="com.javaex.vo.UsersVo" %>
     
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
 
 	UsersVo authUser = (UsersVo) session.getAttribute("authUser");	
-%>
+%> --%>
     
 <!DOCTYPE html>
 <html>
@@ -20,42 +22,9 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/MySite/main">MySite</a>
-			</h1>
-
-			<%
-			if(authUser != null){ // 성공
-			%>
-			<ul>
-				<li><%= authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/MySite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="/MySite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
-			</ul>	
-			<%
-			} else { // 실패
-			%>
-			<ul>
-				<li><a href="/MySite/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/MySite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul>
-			<%
-			}
-			%>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
+		<!-- header, nav -->
+		<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -85,7 +54,7 @@
 				<div id="guestbook">
 					<form action="/MySite/guest" method="get">
 						<input type="hidden" name="action" value="delete">
-						<input type="hidden" name="no" value="<%= no%>">
+						<input type="hidden" name="no" value="${param.no }">
 						
 						<table id="guestDelete">
 							<colgroup>
@@ -96,7 +65,7 @@
 							</colgroup>
 							<tr>
 								<td>비밀번호</td>
-								<td><input type="password" name="pass"></td>
+								<td><input type="password" name="pass" required></td>
 								<td class="text-left"><button type="submit">삭제</button></td>
 								<td><a href="/guestbook2/gbc">[메인으로 돌아가기]</a></td>
 							</tr>
@@ -113,9 +82,8 @@
 		</div>
 		<!-- //container  -->
 		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+	 	<%-- <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include> --%>
+	 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>

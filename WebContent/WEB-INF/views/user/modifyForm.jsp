@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UsersVo" %>
-<%
-	UsersVo authUser = (UsersVo) session.getAttribute("authUser");	// 헤더	
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- <%@ page import="com.javaex.vo.UsersVo" %>
 
-	UsersVo uvo = (UsersVo) request.getAttribute("authUser"); // 폼
+<%
+	UsersVo authUser = (UsersVo) session.getAttribute("authUser");	// 헤더 이름
+
+	UsersVo uvo = (UsersVo) request.getAttribute("authUser"); // 폼 정보
 	
 	System.out.println("female".equals(uvo.getGender()));
-%>
+%> --%>
     
 <!DOCTYPE html>
 <html>
@@ -22,42 +24,9 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<%
-			if(authUser != null){ // 성공
-			%>
-			<ul>
-				<li><%= authUser.getName() %> 님 안녕하세요^^</li>
-				<li><a href="/MySite/user?action=logout" class="btn_s">로그아웃</a></li>
-				<li><a href="/MySite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
-			</ul>	
-			<%
-			} else { // 실패
-			%>
-			<ul>
-				<li><a href="/MySite/user?action=loginForm" class="btn_s">로그인</a></li>
-				<li><a href="/MySite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul>
-			<%
-			}
-			%>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
+		<!-- header, nav -->
+		<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -89,31 +58,31 @@
 					<div id="modifyForm">
 						<form action="/MySite/user" method="get">
 							<input type="hidden" name="action" value="modify">	
-							<input type="hidden" name="id" value="<%= uvo.getId()%>">
+							<input type="hidden" name="id" value="${requestScope.authUser.id}">
 								
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<span class="text-large bold"><%= uvo.getId() %></span>
+								<span class="text-large bold">${requestScope.authUser.id }</span>
 							</div>
 	
 							<!-- 비밀번호 -->
 							<div class="form-group">
 								<label class="form-text" for="input-pass">패스워드</label> 
-								<input type="text" id="input-pass" name="password" value="<%= uvo.getPassword() %>" placeholder="비밀번호를 입력하세요"	>
+								<input type="text" id="input-pass" name="password" value="${requestScope.authUser.password }" placeholder="비밀번호를 입력하세요"	>
 							</div>
 	
 							<!-- 이메일 -->
 							<div class="form-group">
 								<label class="form-text" for="input-name">이름</label> 
-								<input type="text" id="input-name" name="name" value="<%= uvo.getName() %>" placeholder="이름을 입력하세요">
+								<input type="text" id="input-name" name="name" value="${requestScope.authUser.name }" placeholder="이름을 입력하세요">
 							</div>
 	
 							<!-- //나이 -->
 							<div class="form-group">
 								<span class="form-text">성별</span> 
 								
-								<%
+<%-- 								<%
 								if("female".equals(uvo.getGender())) {
 								%>
 								<label for="rdo-male">남</label> 
@@ -131,7 +100,24 @@
 								<input type="radio" id="rdo-female" name="gender" value="female">
 								<%
 								}
-								%>
+								%> --%>
+								
+								<c:choose>
+									<c:when test="${'female' eq requestScope.authUser.gender}">
+										<label for="rdo-male">남</label> 
+										<input type="radio" id="rdo-male" name="gender" value="male"> 
+										
+										<label for="rdo-female">여</label> 
+										<input type="radio" id="rdo-female" name="gender" value="female" checked> 									
+									</c:when>
+									<c:otherwise>
+										<label for="rdo-male">남</label> 
+										<input type="radio" id="rdo-male" name="gender" value="male" checked> 
+										
+										<label for="rdo-female">여</label> 
+										<input type="radio" id="rdo-female" name="gender" value="female">										
+									</c:otherwise>
+								</c:choose>
 							</div>
 	
 							<!-- 버튼영역 -->
@@ -152,9 +138,8 @@
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+	 	<%-- <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include> --%>
+	 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 		
 	</div>

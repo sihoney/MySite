@@ -95,7 +95,7 @@ public class UserController extends HttpServlet {
 			HttpSession session = request.getSession();
 			UsersVo authUser = (UsersVo) session.getAttribute("authUser");
 			
-			// 세션에 있는 정보로 회원 데이터 가져오기
+			// 세션에 있는 정보로 회원 데이터(db) 가져오기
 			UsersDao uDao = new UsersDao();
 			UsersVo uvo = uDao.getUser(authUser.getId(), authUser.getPassword());
 			

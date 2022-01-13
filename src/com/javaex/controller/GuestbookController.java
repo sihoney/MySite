@@ -47,7 +47,7 @@ public class GuestbookController extends HttpServlet {
 		else if("add".equals(action)) {
 			
 			String name = request.getParameter("name");
-			String password = request.getParameter("password");
+			String password = request.getParameter("pass");
 			String content = request.getParameter("content");
 			
 			GuestbookDao guestbookDao = new GuestbookDao();
