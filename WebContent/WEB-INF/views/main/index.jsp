@@ -18,7 +18,6 @@
 
 <body>
 	<div id="wrap">
-
 		<!-- header, nav -->
 		<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>

@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@  taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="com.javaex.vo.UsersVo" %>
+<%-- <%@ page import="com.javaex.vo.UsersVo" %>
 
 <%
 	UsersVo authUser = (UsersVo) session.getAttribute("authUser");
 
 	String result = request.getParameter("result");
 	
-%>
+%> --%>
     
 <!DOCTYPE html>
 <html>
@@ -27,14 +27,9 @@
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 
 		<div id="container" class="clearfix">
-			<div id="aside">
-				<h2>회원</h2>
-				<ul>
-					<li>회원정보</li>
-					<li>로그인</li>
-					<li>회원가입</li>
-				</ul>
-			</div>
+			<c:import url="/WEB-INF/views/include/aside.jsp">
+				<c:param name="view" value="user"></c:param>
+			</c:import>
 			<!-- //aside -->
 
 			<div id="content">
@@ -78,7 +73,7 @@
 							%> --%>
 							
 							<c:choose>
-								<c:when test="${'fail' eq requestScope.result }">
+								<c:when test="${'fail' eq param.result }">
 									<p style="color:red">로그인에 실패했습니다. 다시 로그인해주세요</p>
 								</c:when> 
 							</c:choose>

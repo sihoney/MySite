@@ -1,14 +1,23 @@
 package com.javaex.dao;
 
-import com.javaex.vo.UsersVo;
+import java.util.List;
+
+import com.javaex.vo.BoardVo;
 
 public class DaoTest {
 
 	public static void main(String[] args) {
 		
-		UsersDao uDao = new UsersDao();
+		BoardDao bDao = new BoardDao();
+		List<BoardVo> bList = bDao.getList();
 		
-		uDao.updateUser(new UsersVo("1", "1234", "sihoney", "male"));
+		for(BoardVo bvo : bList) {
+			System.out.println(bvo.toString());
+		}
+		
+//		UsersDao uDao = new UsersDao();
+//		
+//		uDao.updateUser(new UsersVo("1", "1234", "sihoney", "male"));
 		
 		
 		
